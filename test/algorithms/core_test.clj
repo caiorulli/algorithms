@@ -1,7 +1,6 @@
 (ns algorithms.core-test
-  (:require [clojure.test :refer :all]
-            [algorithms.core :refer :all]))
+  (:require [midje.sweet :refer [=> fact facts]]))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+(facts "a-test"
+  (fact "lala"
+    1 => 1))
