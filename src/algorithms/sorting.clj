@@ -1,4 +1,5 @@
-(ns algorithms.sorting)
+(ns algorithms.sorting
+  (:require [clojure.spec.alpha :as s]))
 
 (defn- merge-lists [list-a list-b]
   (loop [result []
@@ -59,3 +60,13 @@
               (recur pivot
                      processed
                      (inc current)))))))))
+
+(s/fdef mergesort
+  :args (s/cat :list (s/coll-of number? :kind vector?))
+  :ret (s/coll-of number? :kind vector?)
+  :fn #(= (:ret %) (-> % :args :list sort)))
+
+(s/fdef quicksort
+  :args (s/cat :list (s/coll-of number? :kind vector?))
+  :ret (s/coll-of number? :kind vector?)
+  :fn #(= (:ret %) (-> % :args :list sort)))
