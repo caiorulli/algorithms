@@ -61,6 +61,19 @@
                      processed
                      (inc current)))))))))
 
+(defn- is-sorted? [list]
+  (or (empty? list)
+      (apply <= list)))
+
+(defn bogosort
+  "Best sorting algorithm ever."
+  [list]
+  (if (is-sorted? list)
+    list
+    (let [[a b] (take 2 (repeatedly #(rand-int (count list))))]
+      (recur (assoc list a (get list b)
+                         b (get list a))))))
+
 (s/fdef mergesort
   :args (s/cat :list (s/coll-of number? :kind vector?))
   :ret (s/coll-of number? :kind vector?)
