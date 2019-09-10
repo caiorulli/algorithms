@@ -74,6 +74,36 @@
       (recur (assoc list a (get list b)
                          b (get list a))))))
 
+(defn- iterate-bubble
+  [limit result]
+  (loop [current   0
+         processed result]
+    (if (= current limit)
+      processed
+      (let [next          (inc current)
+            current-value (get processed current)
+            next-value    (get processed next)]
+        (if (> current-value
+               next-value)
+          (recur
+            (inc current)
+            (assoc processed current next-value
+                             next current-value))
+          (recur
+            (inc current)
+            processed))))))
+
+(defn bubblesort [list]
+  (if (empty? list)
+    list
+    (loop [limit  (dec (count list))
+           result list]
+      (if (= limit 0)
+        result
+        (recur
+          (dec limit)
+          (iterate-bubble limit result))))))
+
 (s/fdef mergesort
   :args (s/cat :list (s/coll-of number? :kind vector?))
   :ret (s/coll-of number? :kind vector?)
