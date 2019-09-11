@@ -1,10 +1,6 @@
 # algorithms
 
-A Clojure library designed to ... well, that part is up to you.
-
-## Usage
-
-FIXME
+Playground repository for implementing data structures and algorithms.
 
 ## License
 

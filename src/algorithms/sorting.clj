@@ -104,6 +104,46 @@
           (dec limit)
           (iterate-bubble limit result))))))
 
+(defn- balanced-heap-at-pos
+  [current list]
+  (let [root        (get list current)
+        left        (inc (* 2 current))
+        left-child  (get list left)
+        right       (* 2 (inc current))
+        right-child (get list right)]
+    (condp = (->> [root left-child right-child]
+                  (filter identity)
+                  (apply max))
+      root list
+
+      left-child (recur left
+                        (assoc list current left-child
+                                    left root))
+
+      right-child (recur right
+                         (assoc list current right-child
+                                     right root)))))
+
+(defn- max-heap [list]
+  (loop [current   (dec (int (Math/floor (/ (count list) 2))))
+         processed list]
+    (if (< current 0)
+      processed
+      (recur (dec current)
+             (balanced-heap-at-pos current processed)))))
+
+(defn heapsort [list]
+  (loop [current   (count list)
+         processed list]
+    (if (<= current 1)
+      processed
+      (let [heap     (max-heap (subvec processed 0 current))
+            last-val (dec current)]
+        (recur last-val
+               (vec (concat (assoc heap 0 (get heap last-val)
+                                        last-val (get heap 0))
+                            (subvec processed current))))))))
+
 (s/fdef mergesort
   :args (s/cat :list (s/coll-of number? :kind vector?))
   :ret (s/coll-of number? :kind vector?)
