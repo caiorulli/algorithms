@@ -7,7 +7,7 @@
          rest-b list-b]
     (let [a (first rest-a)
           b (first rest-b)]
-      (if (not (or a b))
+      (if-not (or a b)
         result
         (if (or (nil? b)
                 (and a (= a (min a b))))
@@ -70,7 +70,7 @@
   [list]
   (if (is-sorted? list)
     list
-    (let [[a b] (take 2 (repeatedly #(rand-int (count list))))]
+    (let [[a b] (repeatedly 2 #(rand-int (count list)))]
       (recur (assoc list a (get list b)
                          b (get list a))))))
 
@@ -98,7 +98,7 @@
     list
     (loop [limit  (dec (count list))
            result list]
-      (if (= limit 0)
+      (if (zero? limit)
         result
         (recur
           (dec limit)
@@ -127,7 +127,7 @@
 (defn- max-heap [list]
   (loop [current   (dec (int (Math/floor (/ (count list) 2))))
          processed list]
-    (if (< current 0)
+    (if (neg? current)
       processed
       (recur (dec current)
              (balanced-heap-at-pos current processed)))))
