@@ -4,7 +4,8 @@
                                         bogosort
                                         bubblesort
                                         heapsort
-                                        insertion-sort]]
+                                        insertion-sort
+                                        selection-sort]]
             [midje.sweet :refer [tabular fact =>]]))
 
 (tabular "about sorting"
@@ -20,4 +21,5 @@
   bogosort
   bubblesort
   heapsort
-  insertion-sort)
+  insertion-sort
+  selection-sort)

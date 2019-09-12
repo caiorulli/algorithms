@@ -148,8 +148,8 @@
   [position list]
   (if (< position 1)
     list
-    (let [pos-value (get list position)
-          previous (dec position)
+    (let [pos-value  (get list position)
+          previous   (dec position)
           prev-value (get list previous)]
       (if (< prev-value pos-value)
         list
@@ -166,6 +166,29 @@
         processed
         (recur (inc current)
                (insert current processed))))))
+
+(defn- find-min
+  [position list]
+  (loop [current      (inc position)
+         min-position position]
+    (if (= current (count list))
+      (assoc list position (get list min-position)
+                  min-position (get list position))
+      (let [current-value (get list current)
+            min-value     (get list min-position)]
+        (if (< current-value min-value)
+          (recur (inc current) current)
+          (recur (inc current) min-position))))))
+
+(defn selection-sort [list]
+  (if (< (count list) 2)
+    list
+    (loop [current   0
+           processed list]
+      (if (= current (dec (count processed)))
+        processed
+        (recur (inc current)
+               (find-min current processed))))))
 
 ;; attempts at generative testing
 (s/fdef mergesort
