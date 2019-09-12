@@ -144,6 +144,30 @@
                                         last-val (get heap 0))
                             (subvec processed current))))))))
 
+(defn- insert
+  [position list]
+  (if (< position 1)
+    list
+    (let [pos-value (get list position)
+          previous (dec position)
+          prev-value (get list previous)]
+      (if (< prev-value pos-value)
+        list
+        (recur previous
+               (assoc list previous pos-value
+                           position prev-value))))))
+
+(defn insertion-sort [list]
+  (if (< (count list) 2)
+    list
+    (loop [current   1
+           processed list]
+      (if (= current (count processed))
+        processed
+        (recur (inc current)
+               (insert current processed))))))
+
+;; attempts at generative testing
 (s/fdef mergesort
   :args (s/cat :list (s/coll-of number? :kind vector?))
   :ret (s/coll-of number? :kind vector?)
