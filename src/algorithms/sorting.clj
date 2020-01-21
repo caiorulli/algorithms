@@ -200,3 +200,4 @@
   :args (s/cat :list (s/coll-of number? :kind vector?))
   :ret (s/coll-of number? :kind vector?)
   :fn #(= (:ret %) (-> % :args :list sort)))
+
