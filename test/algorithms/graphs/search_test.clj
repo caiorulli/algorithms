@@ -1,5 +1,5 @@
 (ns algorithms.graphs.search-test
-  (:require [algorithms.graphs.search :refer [bfs]]
+  (:require [algorithms.graphs.search :refer [bfs dfs]]
             [midje.sweet :refer [=> fact]]))
 
 (fact "Breath first search"
@@ -7,5 +7,13 @@
             2 [4]} 0) => [0 1 2 3 4]
       (bfs {0 [1 2]} 0) => [0 1 2]
       (bfs {0 [1 2]
+            1 [0 2]
+            2 [0 1]} 0) => [0 1 2])
+
+(fact "Depth first search"
+      (dfs {0 [1 2 3]
+            2 [4]} 0) => [0 1 2 4 3]
+      (dfs {0 [1 2]} 0) => [0 1 2]
+      (dfs {0 [1 2]
             1 [0 2]
             2 [0 1]} 0) => [0 1 2])
